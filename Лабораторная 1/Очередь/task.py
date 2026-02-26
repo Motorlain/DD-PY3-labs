@@ -1,52 +1,45 @@
-"""
-My little Queue
-"""
 from typing import Any
-
 
 class Queue:
     def __init__(self):
-        """
-        Очередь с помощью python list
-        TODO Описать где начало и конец очереди
-        """
-        ...  # TODO инициализировать список
+        self._items = []
 
     def enqueue(self, elem: Any) -> None:
-        """
-        Добавление элемент в конец очереди
-
-        :param elem: Элемент, который должен быть добавлен
-        """
-        ...  # TODO реализовать метод enqueue
+        self._items.append(elem)
 
     def dequeue(self) -> Any:
-        """
-        Извлечение элемента из начала очереди.
-
-        :raise: IndexError - Ошибка, если очередь пуста
-
-        :return: Извлеченный с начала очереди элемент.
-        """
-        ...  # TODO реализовать метод dequeue
+        if not self._items:
+            raise IndexError("dequeue from empty queue")
+        return self._items.pop(0)
 
     def peek(self, ind: int = 0) -> Any:
-        """
-        Просмотр произвольного элемента, находящегося в очереди, без его извлечения.
-
-        :param ind: индекс элемента (отсчет с начала, 0 - первый с начала элемент в очереди, 1 - второй с начала элемент в очереди, и т.д.)
-
-        :raise: TypeError - если указан не целочисленный тип индекса
-        :raise: IndexError - если индекс вне границ очереди
-
-        :return: Значение просмотренного элемента
-        """
-        ...  # TODO реализовать метод peek
+        if not isinstance(ind, int):
+            raise TypeError("Index must be integer")
+        if ind < 0 or ind >= len(self._items):
+            raise IndexError("Index out of range")
+        return self._items[ind]
 
     def clear(self) -> None:
-        """ Очистка очереди. """
-        ...  # TODO реализовать метод clear
+        self._items = []
 
-    def __len__(self):
-        """ Количество элементов в очереди. """
-        ...  # TODO реализовать метод __len__
+    def __len__(self) -> int:
+        return len(self._items)
+
+if __name__ == "__main__":
+    queue = Queue()
+
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+
+    print(f"Размер очереди: {len(queue)}")
+    print(f"Первый элемент: {queue.peek()}")
+    print(f"Второй элемент: {queue.peek(1)}")
+
+    print(f"Извлечено: {queue.dequeue()}")
+    print(f"Извлечено: {queue.dequeue()}")
+
+    print(f"Размер после извлечения: {len(queue)}")
+
+    queue.clear()
+    print(f"Размер после очистки: {len(queue)}")
